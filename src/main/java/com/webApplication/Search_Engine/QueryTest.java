@@ -19,7 +19,7 @@ public class QueryTest {
     public static String getQuery(){
         String query = null;
         try{
-            File file = new File("/home/velisarios/Desktop/apache-tomcat-8.5.61/bin/SearchEngineData/query.txt");
+            File file = new File("/home/velisarios/Desktop/DATA/apache-tomcat-8.5.61/bin/SearchEngineData/query.txt");
             Scanner s = new Scanner(file);
             StringBuilder sb = new StringBuilder();
             int i = 0;
@@ -39,38 +39,40 @@ public class QueryTest {
     public static void main(String[] args){
         long startIndexing = System.nanoTime();
         InvertedIndex.BuildInvertedIndex_InMemory(true);
-        //InvertedIndex.invertedIndexData = FilesHandler.loadIndexFromFile();
+        FilesHandler.saveIndexToFile(InvertedIndex.invertedIndexData);
+       // InvertedIndex.setInvertedIndexData(FilesHandler.loadIndexFromFile());
         long stopIndexing = System.nanoTime();
         System.out.println("It took : " +(double) (stopIndexing - startIndexing) / 1000000000 + "s");
         System.out.println("Give a query");
         ArrayList<Integer> topKDocs = null;
-        String query = "runner";
+        String query = getQuery();
 
-        int c = 0;
-        double timeTaken = 0.0, avgTime = 0.0;
-        while(c < 1){
-            QueryProcessor.setQueryProcessorData(query, 10, false);
-            System.out.println("Loop :" + c);
+if(QueryProcessor.queryIsAcceptable(query)) {
+    int c = 0;
+    double timeTaken = 0.0, avgTime = 0.0;
+    while (c < 1) {
+        QueryProcessor.setQueryProcessorData(query, 3, false);
+      //  System.out.println("Loop :" + c);
 
-            //=====
-            long startQueryProcessing = System.nanoTime();
-            topKDocs = QueryProcessor.getTopKDocuments();
-            long stopQueryProcessing = System.nanoTime();
+        //=====
+        long startQueryProcessing = System.nanoTime();
+        topKDocs = QueryProcessor.getTopKDocuments();
+        long stopQueryProcessing = System.nanoTime();
 
+   //     System.out.println(FilesHandler.getDocNamesBasedOnIds(topKDocs));
+        System.out.println(topKDocs);
+        //======
+        System.out.println("It took : " + (double) (stopQueryProcessing - startQueryProcessing) / 1000000000 + "s");
+        timeTaken = timeTaken + ((double) (stopQueryProcessing - startQueryProcessing) / 1000000000);
+        c++;
+    }
+    avgTime = timeTaken / (double) c;
+    double roundOfAvgTime = Math.round(avgTime * 100.0) / 100.0;
+    System.out.println("Average time: " + roundOfAvgTime + "s");
 
-            System.out.println(topKDocs);
-            System.out.println(FilesHandler.getDocNamesBasedOnIds(topKDocs));
-
-            //======
-            System.out.println("It took : " +(double) (stopQueryProcessing - startQueryProcessing) / 1000000000 + "s");
-            timeTaken = timeTaken +( (double) (stopQueryProcessing - startQueryProcessing)/ 1000000000);
-            c++;
-        }
-        avgTime = timeTaken / (double) c;
-        double roundOfAvgTime = Math.round(avgTime * 100.0) / 100.0;
-        System.out.println("Average time: " + roundOfAvgTime + "s");
-
-
+}else{
+    System.out.println("No relevant documents");
+}
        /* System.out.println("Provide feedBack (y/n) ?");
         Scanner scanner1 = new Scanner(System.in);
         String answer1 = scanner1.nextLine();
@@ -92,7 +94,7 @@ public class QueryTest {
             System.out.println("Provide feedBack (y/n) ?");
             s = new Scanner(System.in);
             answer1 = scanner1.nextLine();
-        }*/
+        }
 
 
         int k = 0;
@@ -111,7 +113,7 @@ public class QueryTest {
             }else
                 System.out.println("empty");
             k++;
-        }
+        }*/
 
 
 

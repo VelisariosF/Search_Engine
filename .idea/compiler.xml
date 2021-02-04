@@ -9,8 +9,8 @@
         <module name="Search_Engine" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Search_Engine" target="8" />
+    <bytecodeTargetLevel target="14">
+      <module name="Search_Engine" target="14" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -15,8 +15,8 @@ public class FilesHandler {
     protected static String filesPath = "/home/velisarios/Desktop/DATA/apache-tomcat-8.5.61/bin/SearchEngineData/";
     //TODO delete readFilePath when project is completed
     protected static String readFilePath ="Documents/";
-
-    private final static String CRAWLED_SITES_FILE_PATH = filesPath + "crawledSites.txt",
+    //TODO make private
+    protected final static String CRAWLED_SITES_FILE_PATH = filesPath + "crawledSites.txt",
             METADATA_FILE_PATH = filesPath + "metaData.txt", INDEX_FILE_PATH = filesPath + "INDEX.dat";
 
     //This queue is used by the threads that write the content of the documents
@@ -118,7 +118,7 @@ public class FilesHandler {
             BufferedReader reader = new BufferedReader(new FileReader(CRAWLED_SITES_FILE_PATH));
             String line;
             while((line = reader.readLine()) != null){
-                if(!Tokenizer.isBlank(line)){
+                if(!line.isBlank()){
                     helper.add(line);
                 }
             }
@@ -142,7 +142,7 @@ public class FilesHandler {
 
                 String currentLine;
                 while((currentLine = in.readLine()) != null){
-                    if(!Tokenizer.isBlank(currentLine))
+                    if(!currentLine.isBlank())
                         lastCrawledSite = currentLine;
                 }
 
@@ -166,12 +166,12 @@ public class FilesHandler {
                 BufferedReader in = new BufferedReader(new FileReader(CRAWLED_SITES_FILE_PATH));
 
                 String currentLine;
-                while((currentLine = in.readLine()) != null){
-                    if(!Tokenizer.isBlank(currentLine))
+                while((currentLine = in.readLine()) != null) {
+                    if (!currentLine.isBlank())
                         crawledSites.add(currentLine);
                 }
-
                 in.close();
+
             }catch (IOException e){
                 e.printStackTrace();
             }
@@ -248,6 +248,7 @@ public class FilesHandler {
     //This function is used to return the names of the documents that
     //are saved.
     public static ArrayList<String> getDocs() {
+        Tokenizer.initStopWords();
         ArrayList<String> documents = new ArrayList<>();
         try{
             File file = new File(PARENT_DIRECTORY);
@@ -286,7 +287,7 @@ public class FilesHandler {
 
     //This method return the terms of a specific document
     public static ArrayList<String> getDocumentWords(String fileName) {
-        Tokenizer.initStopWords();
+
         ArrayList<String> docTerms = new ArrayList<>();
         try{
             File file = new File(fileName);

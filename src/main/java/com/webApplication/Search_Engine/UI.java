@@ -77,9 +77,9 @@ public class UI {
                     String query = scanner.nextLine();
                     QueryProcessor.setQueryProcessorData(query, 10, false);
                     ArrayList<Integer> topKDocs = QueryProcessor.getTopKDocuments();
-                    for(int i : topKDocs){
+                    ArrayList<String> names = FilesHandler.getDocNamesBasedOnIds(topKDocs);
+                    for(String i : names){
                         System.out.println(i);
-
                     }
 
                     System.out.println("Provide feedBack (y/n) ?");

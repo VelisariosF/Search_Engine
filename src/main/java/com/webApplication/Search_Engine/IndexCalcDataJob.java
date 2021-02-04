@@ -13,15 +13,9 @@ public class IndexCalcDataJob implements Runnable{
     @Override
     public void run() {
         //each thread inserts a term into the lexicon
-
             while (!stop){
-
-                    calculateTermsData();
-
-                Thread.yield();
-
-
-        }
+                  calculateTermsData();
+            }
     }
 
     private synchronized void calculateTermsData(){
@@ -36,10 +30,15 @@ public class IndexCalcDataJob implements Runnable{
                 collectionTerm = termDocIdPair.term;
                 //get the term's document id
                 documentId = termDocIdPair.docId;
+                if(InvertedIndex.invertedIndexData.get(collectionTerm).getDocIdFtdPairs() != null){
+                    data = InvertedIndex.invertedIndexData.get(collectionTerm).getDocIdFtdPairs();
+
+                }
+
             }else
                 return;
 
-            data = InvertedIndex.invertedIndexData.get(collectionTerm).getDocIdFtdPairs();
+
         }
 
         if (data != null) {
@@ -51,11 +50,12 @@ public class IndexCalcDataJob implements Runnable{
                     stop = true;
 
             } else {
-                //if the terms posting list size is not zero it means that we have found this term
+                //if the terms posting list size is not zero it means that we have found this term before
                 if (data.get(documentId) != null) {
                     //if the (docId, ftd), with docId == documentId, exists then we add one to the term's
-                    //apps in this doc
-                    data.put(documentId, data.get(documentId) + 1);
+                    //appearances in this doc
+                    int newApps = data.get(documentId) + 1;
+                    data.replace(documentId, newApps);
                     if(InvertedIndex.termDocIdPairs.size() == 0)
                         stop = true;
                 } else {
@@ -66,6 +66,8 @@ public class IndexCalcDataJob implements Runnable{
                         stop = true;
                 }
             }
+
+
         } else {
             //do nothing
         }
@@ -81,9 +83,10 @@ public class IndexCalcDataJob implements Runnable{
         //initialize stop variable to false
         stop = false;
         //clear the queue
-        InvertedIndex.termDocIdPairs.clear();
+        //InvertedIndex.termDocIdPairs.clear();
         //insert all the document's, with id == documentId, into the queue
         for(String collectionTerm : docTerms){
+
             InvertedIndex.termDocIdPairs.add(new InvertedIndex.TermDocIdPair(collectionTerm, documentId));
         }
 

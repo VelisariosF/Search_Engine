@@ -19,6 +19,7 @@ public class QueryAccumulators implements Runnable{
 
             while (!stop){
                 calculateTheAccumulators();
+
             }
     }
 

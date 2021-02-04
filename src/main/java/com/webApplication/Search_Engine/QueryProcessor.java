@@ -83,7 +83,7 @@ public class QueryProcessor {
 
     public static int feedBackTimes = 0;
 
-    protected static final int numOfThreads = 3;
+    protected static final int numOfThreads = 100;
 
     //This queue contains the terms of the query and is used by the treads
     //Each thread gets each term from this queue
@@ -140,7 +140,7 @@ public class QueryProcessor {
             }
 
             //if sortedDocs.size() > topK then the top K are returned
-             for (int i = 0; i < sortedDocs.size(); i++) {
+             for (int i = 0; i < topK; i++) {
 
                 topKDocs.add(sortedDocs.get(i));
             }
@@ -315,7 +315,7 @@ public class QueryProcessor {
     * This function gets the query vector
     * */
     public static void calculateQueryVector(String query){
-        if(!Tokenizer.isBlank(query)){
+        if(!query.isBlank()){
             QueryVectorJob.initData(indexData);
             QueryVectorJob queryVectorJob = new QueryVectorJob();
             for(int i = 0; i < numOfThreads; i++){
@@ -340,15 +340,14 @@ public class QueryProcessor {
 
 
     //An query is not acceptable if is blank or if any of its terms do not exist in index
-    //if the query is noto acceptable then the topk docs will be none.
-    public static boolean queryIsAcceptapble(String query) {
-
+    //if the query is not acceptable then the topK docs will be none.
+    public static boolean queryIsAcceptable(String query) {
         String[] queryTerms = null;
         if(query != null){
-            queryTerms = Tokenizer.tokenizeQuery(query, Tokenizer.isBlank(query));
+            queryTerms = Tokenizer.tokenizeQuery(query, query.isBlank());
         }else {
+            System.out.println("it is null");
             return false;
-
         }
 
 
@@ -390,7 +389,6 @@ public class QueryProcessor {
         //calculate queryTermsQueue
         calcQueryTerms(query);
         QueryHelper.constructQueryPosTermPair(indexData);
-
     }
 
 
@@ -402,9 +400,7 @@ public class QueryProcessor {
         queryTerms = Tokenizer.tokenizeQuery(query);
     }
 
-    public static ArrayList<Double> getNewQueryVector() {
-        return newQueryVector;
-    }
+
 
 
 

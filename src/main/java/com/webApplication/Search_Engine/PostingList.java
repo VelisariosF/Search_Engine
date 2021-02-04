@@ -1,11 +1,8 @@
 package com.webApplication.Search_Engine;
 
 import java.io.Serializable;
-import java.util.*;
-
-
-import java.io.Serializable;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * This class implements a term's posting list
@@ -18,14 +15,16 @@ public class PostingList implements Serializable {
     //This helps retrieve the term from the lexicon by its position in the lexicon
     private int termPosInLexicon;
 
+    //1st Integer represents The document id
+    //2nd Integer represents the term frequency in current doc
+    private HashMap<Integer, Integer> docIdFtdPairs = new HashMap<>();
+
     //constructor that gets as a parameter the term's position in the lexicon
     public PostingList(int termPosInLexicon){
         this.termPosInLexicon = termPosInLexicon;
     }
 
-    //1st Integer represents The document id
-    //2nd Integer represents the term frequency in current doc
-    private HashMap<Integer, Integer> docIdFtdPairs = new HashMap<>();
+
 
     //This method returns the number of documents that contain current term
    public int getNumOfDocsThatContainCurrentWord(){
@@ -55,5 +54,9 @@ public class PostingList implements Serializable {
     //this method returns the position of the term in the lexicon
     public int getTermPosInLexicon() {
         return termPosInLexicon;
+    }
+
+    public void setDocIdFtdPairs(HashMap<Integer, Integer> docIdFtdPairs) {
+        this.docIdFtdPairs = docIdFtdPairs;
     }
 }

@@ -1,7 +1,10 @@
 package com.webApplication.Search_Engine;
 
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class implements the inverted index
@@ -27,6 +30,7 @@ public class InvertedIndex  {
     //number of threads that are used
     private static int numOfThreads = 3;
 
+    //this represents of the id of the last document that the index read
     private static int lastParsedDocId;
 
     //document names
@@ -42,6 +46,7 @@ public class InvertedIndex  {
     public static void BuildInvertedIndex_InMemory(boolean rebuildIndex){
         //initialize the number of the already parsed documents
         documentNames = FilesHandler.getDocs();
+
         NUMBER_OF_DOCUMENTS = documentNames.size();
 
 
@@ -55,11 +60,12 @@ public class InvertedIndex  {
         }
 
         termDocIdPairs.clear();
-
         //apply two passes to the collection
         firstPass();
-        secondPass();
+        termDocIdPairs.clear();
 
+        secondPass();
+        termDocIdPairs.clear();
         //After the second pass has been completed save the id of the last document parsed by the index.
         FilesHandler.saveLastParsedDocIdToMetaDataFile(lastParsedDocId);
     }
@@ -73,6 +79,7 @@ public class InvertedIndex  {
 
         for(int i = lastParsedDocId; i < NUMBER_OF_DOCUMENTS; i++){
             int documentId = i;
+
             //initialize the data for the job
             IndexInsertJob.initData(documentId, FilesHandler.getDocumentWords(FilesHandler.getParentDirectory() + documentNames.get(documentId)));
             //create an insertion job
@@ -80,10 +87,8 @@ public class InvertedIndex  {
             //create threads to process the job
             for (int j = 0 ; j < numOfThreads; j++){
                 new Thread(indexInsertJob).start();
-
             }
             while (!IndexInsertJob.stop){}
-
         }
 
 
@@ -99,12 +104,13 @@ public class InvertedIndex  {
             documentId =  i;
             //initialize the data for the job
             IndexCalcDataJob.initData(documentId, FilesHandler.getDocumentWords(FilesHandler.getParentDirectory() + documentNames.get(documentId)));
+            IndexCalcDataJob.stop = false;
             //create a data calculation job
+
             IndexCalcDataJob indexCalcDataJob = new IndexCalcDataJob();
             //create threads to process the job
             for (int j = 0 ; j < numOfThreads; j++){
-                new Thread(indexCalcDataJob).start();
-
+                 new Thread(indexCalcDataJob).start();
             }
             while (!IndexCalcDataJob.stop){}
 

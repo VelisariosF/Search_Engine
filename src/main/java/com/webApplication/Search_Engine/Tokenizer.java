@@ -14,7 +14,7 @@ public class Tokenizer {
     //this set contains the stopwords
     private static final HashSet<String> stopwords = new HashSet<>();
     //private static String[] queryTerms;
-    private final static String STOPWORDS_FILE_PATH = "/home/velisarios/Desktop/apache-tomcat-8.5.61/bin/SearchEngineData/stopwords.txt";
+    private final static String STOPWORDS_FILE_PATH = "/home/velisarios/Desktop/DATA/apache-tomcat-8.5.61/bin/SearchEngineData/stopwords.txt";
     //This method is used to extract  and return the text from a web page source code
     public static String extractText(Reader reader) {
         StringBuilder sb = new StringBuilder();
@@ -47,7 +47,7 @@ public class Tokenizer {
    public static String[] tokenizeQuery(String query, boolean blankQuery){
         String[] queryTerms;
         if(!blankQuery){
-            queryTerms = query.split(" ");
+            queryTerms = query.split("[^a-zA-Z]");
             for(int i = 0; i < queryTerms.length; i++) {
                 queryTerms[i] = Tokenizer.tokenize(queryTerms[i]);
                 if(isStopWord(queryTerms[i])){
@@ -131,13 +131,6 @@ public class Tokenizer {
 
        return queue;
    }
-
-
-   //This method checks if a string is blank
-    public static boolean isBlank(String string) {
-        return string == null || string.trim().isEmpty();
-    }
-
 
 
 }

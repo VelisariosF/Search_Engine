@@ -1,9 +1,6 @@
 <%--
-  Created by IntelliJ IDEA.
-  User: velisarios
-  Date: 4/1/21
-  Time: 5:46 μ.μ.
-  To change this template use File | Settings | File Templates.
+  This page is the main page for searching
+
 --%>
 <%@ page import = " java.util.* " %>
 <%@ page import="com.webApplication.Search_Engine.Tokenizer" %>
@@ -21,7 +18,7 @@
 
 
 <form action="" method="POST" >
-    Submit query: <input type="text" name="user_Input" id ="user_Input" required/>
+    <input type="text" name="user_Input"  id ="user_Input" />
     <input type="submit" name="querySearched"  value="Search"/>
 </form>
 
