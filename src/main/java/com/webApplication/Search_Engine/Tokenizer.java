@@ -12,6 +12,7 @@ import org.jsoup.*;
  */
 public class Tokenizer {
     //this set contains the stopwords
+
     private static final HashSet<String> stopwords = new HashSet<>();
     //private static String[] queryTerms;
     private final static String STOPWORDS_FILE_PATH = "/home/velisarios/Desktop/DATA/apache-tomcat-8.5.61/bin/SearchEngineData/stopwords.txt";
@@ -64,10 +65,15 @@ public class Tokenizer {
 
    //This method is used to tokenize a given string
     public static String tokenize(String s){
-        s = s.replaceAll("[^a-zA-Z]", " ")
+        s = s.trim().replaceAll("[^a-zA-Z]", " ")
                 .toLowerCase()
                 .replace("\n", " ")
-                .trim();
+                .replaceAll("\\p{Punct}"," ");
+        String[] tokens = s.split(" ");
+        if(tokens.length > 1){
+            s = s.substring(0 ,s.indexOf(" "));
+        }
+        s = s.trim();
 
         if(isStopWord(s))
             return " ";

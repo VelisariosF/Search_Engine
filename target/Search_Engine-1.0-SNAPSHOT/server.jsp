@@ -18,17 +18,14 @@
 * This is the server. Server is responsible for every situation
 *
 * */
-
+    //load the index in memory
+    InvertedIndex.setInvertedIndexData(FilesHandler.loadIndexFromFile());
  //check if the searched button from the index.jsp is pressed
  if(request.getParameter("querySearched") != null) {
      //if its pressed get the user input from the input field
      String query = request.getParameter("user_Input");
-
      if(QueryProcessor.queryIsAcceptable(query)){
-         //if query is acceptable load the index data
-         InvertedIndex.setInvertedIndexData(FilesHandler.loadIndexFromFile());
-     //  InvertedIndex.BuildInvertedIndex_InMemory(true);
-         //set the data for the query processor
+            //set the data for the query processor
          QueryProcessor.setQueryProcessorData(query, 6, false);
          //get the top k documents
          ArrayList<Integer> topKDocsIds = QueryProcessor.getTopKDocuments();
@@ -38,16 +35,13 @@
          session.setAttribute("indexData", InvertedIndex.getInvertedIndexData());
          session.setAttribute("topKDocsIds", topKDocsIds);
          session.setAttribute("topKDocsNames", topKDocsNames);
-         session.setAttribute("docsChosen", true);
-         request.setAttribute("querySearched", null);
-         //redirect to the results page
-         response.sendRedirect("results.jsp");
-    } else{
-         session.setAttribute("docsChosen", true);
+     } else{
          session.setAttribute("topKDocsNames", null);
-         response.sendRedirect("results.jsp");
     }
-
+     request.setAttribute("querySearched", null);
+     session.setAttribute("docsChosen", true);
+     //redirect to the results page
+     response.sendRedirect("results.jsp");
 
  }
 

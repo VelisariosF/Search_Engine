@@ -38,9 +38,9 @@ public class QueryTest {
     }
     public static void main(String[] args){
         long startIndexing = System.nanoTime();
-        InvertedIndex.BuildInvertedIndex_InMemory(true);
-        FilesHandler.saveIndexToFile(InvertedIndex.invertedIndexData);
-       // InvertedIndex.setInvertedIndexData(FilesHandler.loadIndexFromFile());
+       // InvertedIndex.BuildInvertedIndex_InMemory(true);
+        //FilesHandler.saveIndexToFile(InvertedIndex.invertedIndexData);
+        InvertedIndex.setInvertedIndexData(FilesHandler.loadIndexFromFile());
         long stopIndexing = System.nanoTime();
         System.out.println("It took : " +(double) (stopIndexing - startIndexing) / 1000000000 + "s");
         System.out.println("Give a query");

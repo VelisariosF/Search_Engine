@@ -346,7 +346,6 @@ public class QueryProcessor {
         if(query != null){
             queryTerms = Tokenizer.tokenizeQuery(query, query.isBlank());
         }else {
-            System.out.println("it is null");
             return false;
         }
 
