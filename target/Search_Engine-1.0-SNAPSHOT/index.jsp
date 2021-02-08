@@ -11,16 +11,20 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="index2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" >-->
     <title>Title</title>
 </head>
 <body>
 
 
-<form action="" method="POST" >
-    <input type="text" name="user_Input"  id ="user_Input" />
-    <input type="submit" name="querySearched"  value="Search"/>
+<form style="padding-top: 90px" action="" method="POST" >
+    <input type="text" name="user_Input"  id ="user_Input" placeholder="search.." />
+    <button type="submit" name="querySearched"  value="Search" ><i class="fa fa-search"></i></button>
 </form>
+
+
 
 </body>
 

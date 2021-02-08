@@ -2,15 +2,17 @@
   This page is the page is where the results after the searching phase appear
 --%>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="java.io.PrintWriter" %><
+<%@ page import="java.io.PrintWriter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="server.jsp"%>
 <html>
 <head>
-    <link rel="stylesheet" href="index.css">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="index2.css">
     <title>Title</title>
 </head>
 <body>
+
 
 <%
     PrintWriter printWriter = response.getWriter();
@@ -25,33 +27,43 @@
         printWriter.println("<ul>");
         for (int i = 0; i < topKDocsNames.size(); i++) {
             printWriter.println("<li style=\"list-style:none;\"> " + topKDocsNames.get(i) + "</li>");
-            printWriter.println("<hr style=\"width:50%; margin-right: 100%\">");
+            printWriter.println("<hr>");
         }
         printWriter.println("</ul>");
 %>
+
+
 <form action="" method="POST">
     <p>Provide feedback?</p>
-    <input type="radio" id="yes" name="userChoice" value="yes" required>
-    <label> yes</label> <br>
-    <input type="radio" id="no" name="userChoice" value="no" required>
+    <input  type="radio" id="yes" name="userChoice" value="yes" required>
+    <label> yes</label>
+    <input  type="radio" id="no" name="userChoice" value="no" required>
     <label> no</label> <br>
-    <input type="submit" name="povideFeedbackAnswer" value="submit answer">
+    <button style="margin-top: 5px" type="submit" name="povideFeedbackAnswer" value="submit answer">submit answer</button>
 </form>
 
 <%} else if(!docsChosen) {
  //if any docs are chosen from the user the show this message%>
+<div class="emptyResults">
+    <h3 style="text-decoration: underline">No documents are chosen</h3>
 
-<h3>No documents are chosen</h3>
-<a href="index.jsp">search from beginning</a> <br>
-<a href="insertRelDocs.jsp">Choose relevant Documents</a>
+    <button style="margin-left: -6%" onclick="window.location.href='insertRelDocs.jsp'">Choose relevant Documents</button>
+    <button onclick="window.location.href='index.jsp'">search again</button>
+
+
+</div>
+
 
 <%}else if(topKDocsNames == null){
 
 %>
+<div class="emptyResults">
+    <h3 style="text-decoration: underline">No relevant documents</h3> </br>
 
-<h3>No relevant documents</h3> <br>
+    <button onclick="window.location.href='index.jsp'">search again</button>
 
-<a href="index.jsp">search again</a>
+</div>
+
 
 <%}%>
 

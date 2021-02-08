@@ -14,7 +14,7 @@ public class FilesHandler {
     //Here put the path of the tomcat server bin
     protected static String filesPath = "/home/velisarios/Desktop/DATA/apache-tomcat-8.5.61/bin/SearchEngineData/";
     //TODO delete readFilePath when project is completed
-    protected static String readFilePath ="TestData/Lisa2/";
+    protected static String readFilePath ="Documents/";
     //TODO make private
     protected final static String CRAWLED_SITES_FILE_PATH = filesPath + "crawledSites.txt",
             METADATA_FILE_PATH = filesPath + "metaData.txt", INDEX_FILE_PATH = filesPath + "INDEX.dat";

@@ -8,11 +8,13 @@
 <%@ include file="server.jsp"%>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="index2.css">
     <title>Title</title>
 </head>
 <body>
 
-<h3>Choose relevant documents:</h3>
+<h3 style="margin-left: 39%; text-decoration: underline">Choose relevant documents</h3>
 <form action="" method="POST" >
     <%
   //get the top k docs from the session
@@ -24,7 +26,7 @@
          <input type="checkbox" name="topKDocsNames" value="<%=topKDocsIds.get(i)%>"/>
            <label><%=topKDocsNames.get(i)%> </label><br>
     <%  } %>
-    <input type="submit" name="relDocsChosen" value="Submit feedback"/>
+    <button style="margin-top: 10px" type="submit" name="relDocsChosen" value="Submit feedback">Submit feedback</button>
 
 
 
