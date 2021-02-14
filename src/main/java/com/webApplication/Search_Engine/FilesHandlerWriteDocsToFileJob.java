@@ -23,11 +23,11 @@ public class FilesHandlerWriteDocsToFileJob implements Runnable{
             while (!stop){
                 //TODO add thread.sleep to avoid ssl exception
                 saveDocumentToFile();
-              //  try{
-                 //   Thread.sleep(5000);
-             ////   }catch (InterruptedException e){
-              //      e.printStackTrace();
-             //   }
+                try{
+                    Thread.sleep(2000);
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }
 
             }
     }
@@ -50,10 +50,9 @@ public class FilesHandlerWriteDocsToFileJob implements Runnable{
 
                 BufferedWriter bw = new BufferedWriter(new FileWriter(FilesHandler.PARENT_DIRECTORY + i + ".txt"));
         ) {
-
-            bw.write(Tokenizer.extractText(new InputStreamReader(new URL(urlToCrawl).openStream())));
+            bw.write(Tokenizer.extractText(new InputStreamReader(new URL(urlToCrawl).openStream()), i));
             bw.close();
-            i--;
+            i++;
             if(FilesHandler.markedLinksQueue.size() == 0)
                 stop = true;
 
@@ -74,8 +73,11 @@ public class FilesHandlerWriteDocsToFileJob implements Runnable{
         while (iterator.hasNext()){
             FilesHandler.markedLinksQueue.add(iterator.next());
         }
-
-         i = readFromStartPage? marked.size() - 1: FilesHandler.getNumOfDocsFromMetaDatFile() + marked.size() - 1;
-
+        FilesHandler.documentsTitles = FilesHandler.loadDocumentsTitles();
+         if(readFromStartPage){
+           FilesHandler.documentsTitles.clear();
+         }
+        // i = readFromStartPage? marked.size() - 1: FilesHandler.getNumOfDocsFromMetaDatFile() + marked.size() - 1;
+        i = readFromStartPage? 0: FilesHandler.getNumOfDocsFromMetaDatFile() + 1;
     }
 }

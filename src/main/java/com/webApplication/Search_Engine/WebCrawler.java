@@ -67,11 +67,11 @@ public class WebCrawler implements Runnable{
                 //get a link from the queue and start crawling the respective web site
                 crawledUrl = queue.poll();
                  //TODO add thread.sleep to avoid ssl exception
-                // try{
-                //     Thread.sleep(5000);
-               //  }catch (InterruptedException e){
-               //      e.printStackTrace();
-              //   }
+            /*     try{
+                     Thread.sleep(2000);
+                 }catch (InterruptedException e){
+                     e.printStackTrace();
+                 }*/
                 crawlBFS();
                 Thread.yield();
 

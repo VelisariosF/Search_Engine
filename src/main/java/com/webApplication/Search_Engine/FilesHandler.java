@@ -12,11 +12,11 @@ import java.util.concurrent.*;
 public class FilesHandler {
     //TODO might change this comment when project is complete
     //Here put the path of the tomcat server bin
-    protected static String filesPath = "/home/velisarios/Desktop/DATA/apache-tomcat-8.5.61/bin/SearchEngineData/";
+    protected static String filesPath = "/home/velisarios/Desktop/DATA/apache-tomcat-8.5.61/bin/SearchEngineData/CrawlerDocs/";
     //TODO delete readFilePath when project is completed
     protected static String readFilePath ="Documents/";
     //TODO make private
-    protected final static String CRAWLED_SITES_FILE_PATH = filesPath + "crawledSites.txt",
+    protected final static String CRAWLED_SITES_FILE_PATH = filesPath + "crawledSites.txt", DOCUMENTS_TITLES = filesPath + "pageTitles.dat",
             METADATA_FILE_PATH = filesPath + "metaData.txt", INDEX_FILE_PATH = filesPath + "INDEX.dat";
 
     //This queue is used by the threads that write the content of the documents
@@ -32,6 +32,9 @@ public class FilesHandler {
     //which links have been crawled from a previous crawling session
     private static HashSet<String> helper = new HashSet<>();
 
+    //This represents the titles of every document.
+    //Pairs of type (docId, Title)
+    protected static ConcurrentHashMap<Integer, String> documentsTitles = new ConcurrentHashMap<>();
 
     //This variable represents the document's id that was last parsed by the index
     //If index is not going to be rebuilt then we must insert terms that exist to the new documents
@@ -105,7 +108,8 @@ public class FilesHandler {
        //after this session is finished save the new number of docs to a file
        saveNumOfDocsToMetadataFile(numOfSites);
 
-
+       //after all docs are saved then save the document titles
+        saveDocumentsTitlesToDisk(documentsTitles);
     }
 
 
@@ -218,16 +222,15 @@ public class FilesHandler {
 
 
 
-   //This method returns the names of the documents based on their ids
-    public static ArrayList<String> getDocNamesBasedOnIds(ArrayList<Integer> docIds){
-        ArrayList<String> docNames = new ArrayList<>(), allDocNames = getCrawledSites();
-
+   //This method returns the urls of the documents based on their ids
+    public static ArrayList<String> getDocUrlsBasedOnIds(ArrayList<Integer> docIds){
+        ArrayList<String> docUrls = new ArrayList<>(), allDocUrls = getCrawledSites();
         for(int id : docIds){
-            if(allDocNames.get(id) != null){
-                docNames.add(allDocNames.get(id));
+            if(allDocUrls.get(id) != null){
+                docUrls.add(allDocUrls.get(id));
             }
         }
-        return docNames;
+        return docUrls;
     }
     //TODO delete afterwards
    /* public static ArrayList<Integer> getDocIdsBasedOnNames(String[] names){
@@ -420,5 +423,57 @@ public class FilesHandler {
             e.printStackTrace();
         }
 
+    }
+
+    //This method is used to save the titles of the documents to disk
+    public static void saveDocumentsTitlesToDisk(ConcurrentHashMap<Integer, String> documentsTitles){
+        try{
+            FileOutputStream fos = new FileOutputStream(DOCUMENTS_TITLES);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(documentsTitles);
+            oos.close();
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    //This method is used to load the document titles from disk
+    public static ConcurrentHashMap<Integer, String> loadDocumentsTitles(){
+
+            if (Files.exists(Paths.get(DOCUMENTS_TITLES))) {
+
+                try {
+                FileInputStream fileIn = new FileInputStream(DOCUMENTS_TITLES);
+                ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+
+                Object obj = objectIn.readObject();
+
+                objectIn.close();
+                return (ConcurrentHashMap<Integer, String>) obj;
+
+            } catch(Exception ex){
+                ex.printStackTrace();
+            }
+        }
+            return new ConcurrentHashMap<>();
+    }
+
+    //This method returns the titles of the documents based on ids
+    public static ArrayList<String> getDocumentTitlesBasedOnIds(ArrayList<Integer> docIds){
+        ArrayList<String> docTitles= new ArrayList<>();
+        documentsTitles = loadDocumentsTitles();
+          for(int docId : docIds){
+              if(documentsTitles.get(docId)!= null){
+                  String docTitle = documentsTitles.get(docId);
+                  docTitles.add(docTitle);
+              }
+
+          }
+        return docTitles;
+    }
+
+    public static ConcurrentHashMap<Integer, String> getDocumentsTitles() {
+        return documentsTitles;
     }
 }

@@ -9,7 +9,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="index2.css">
+    <link rel="stylesheet" href="index.css">
     <title>Title</title>
 </head>
 <body>
@@ -19,12 +19,15 @@
     <%
   //get the top k docs from the session
         ArrayList<Integer> topKDocsIds = (ArrayList<Integer>)session.getAttribute("topKDocsIds");
-        ArrayList<String> topKDocsNames = (ArrayList<String>) session.getAttribute("topKDocsNames");
+        ArrayList<String> topKDocsUrls = (ArrayList<String>) session.getAttribute("topKDocsUrls");
+
+        //get the titles from the session
+        ArrayList<String> topKDocsTitles = (ArrayList<String>) session.getAttribute("topKDocsTitles");
      //print them on screen and let the user chose relevant documents
-        for(int i = 0; i < topKDocsNames.size(); i++){
+        for(int i = 0; i < topKDocsTitles.size(); i++){
     %>
-         <input type="checkbox" name="topKDocsNames" value="<%=topKDocsIds.get(i)%>"/>
-           <label><%=topKDocsNames.get(i)%> </label><br>
+         <input type="checkbox" name="topKDocsUrls" value="<%=topKDocsIds.get(i)%>"/>
+           <label><%=topKDocsTitles.get(i)%> </label><br>
     <%  } %>
     <button style="margin-top: 10px" type="submit" name="relDocsChosen" value="Submit feedback">Submit feedback</button>
 

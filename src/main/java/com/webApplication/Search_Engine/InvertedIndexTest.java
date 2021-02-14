@@ -19,8 +19,8 @@ public class InvertedIndexTest {
         System.out.println("It took : " + (double) (stopIndexing - startIndexing) / 1000000000 + "s");
         k++;
     }
-      //  InvertedIndex.printData();
-      //  FilesHandler.saveIndexToFile(InvertedIndex.invertedIndexData);
+       // InvertedIndex.printData();
+       FilesHandler.saveIndexToFile(InvertedIndex.invertedIndexData);
 
 
 

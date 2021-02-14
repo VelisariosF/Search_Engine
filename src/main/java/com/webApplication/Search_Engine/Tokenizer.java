@@ -17,7 +17,7 @@ public class Tokenizer {
     //private static String[] queryTerms;
     private final static String STOPWORDS_FILE_PATH = "/home/velisarios/Desktop/DATA/apache-tomcat-8.5.61/bin/SearchEngineData/stopwords.txt";
     //This method is used to extract  and return the text from a web page source code
-    public static String extractText(Reader reader) {
+    public static String extractText(Reader reader, int documentId) {
         StringBuilder sb = new StringBuilder();
         try{
 
@@ -31,7 +31,13 @@ public class Tokenizer {
             e.printStackTrace();
         }
         String textOnly = null;
+        String documentTitle = null;
         if(sb != null){
+            //get the documents title
+            documentTitle = Jsoup.parse(sb.toString()).title();
+            //save it
+            FilesHandler.documentsTitles.put(documentId, documentTitle);
+            //get the documents text
             textOnly = Jsoup.parse(sb.toString()).text();
         }else {
             textOnly = "";

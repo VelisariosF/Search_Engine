@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="index2.css">
+    <link rel="stylesheet" href="index.css">
     <title>Title</title>
 </head>
 <body>
@@ -21,12 +21,19 @@
     //at first a feedback is not provided so the server sets this to true in order to
     //show results from the first search
     boolean docsChosen = (boolean) session.getAttribute("docsChosen");
-    ArrayList<String> topKDocsNames = (ArrayList<String>)session.getAttribute("topKDocsNames");
-    if(docsChosen && topKDocsNames != null) {
+    //get the urls from the session
+    ArrayList<String> topKDocsUrls = (ArrayList<String>)session.getAttribute("topKDocsUrls");
+    //get the titles from the session
+    ArrayList<String> topKDocsTitles = (ArrayList<String>) session.getAttribute("topKDocsTitles");
+
+    ArrayList<Integer> topKDocsIds = (ArrayList<Integer>) session.getAttribute("topKDocsIds");
+    if(docsChosen && topKDocsUrls != null) {
         //print the results and give the choice for a feedback
         printWriter.println("<ul>");
-        for (int i = 0; i < topKDocsNames.size(); i++) {
-            printWriter.println("<li style=\"list-style:none;\"> " + topKDocsNames.get(i) + "</li>");
+        for (int i = 0; i < topKDocsTitles.size(); i++) {
+            printWriter.println("<li style=\"list-style:none;\"> " + topKDocsTitles.get(i) + "</li><br>");
+            printWriter.println("<li style=\"list-style:none;\"> " + topKDocsUrls.get(i)  + "</li>");
+
             printWriter.println("<hr>");
         }
         printWriter.println("</ul>");
@@ -54,7 +61,7 @@
 </div>
 
 
-<%}else if(topKDocsNames == null){
+<%}else if(topKDocsUrls == null){
 
 %>
 <div class="emptyResults">

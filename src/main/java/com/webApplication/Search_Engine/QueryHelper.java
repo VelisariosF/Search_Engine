@@ -30,7 +30,7 @@ public class QueryHelper {
     private static HashMap<Integer, String> queryPosTermPair = new HashMap<>();
 
    // private static int dimension = QueryProcessor.vectorDimensions;
-    //This method is used to constuct the queryPosTermPair hashMap based on the data
+    //This method is used to construct the queryPosTermPair hashMap based on the data
     //of the index
     public static void constructQueryPosTermPair(HashMap<String, PostingList> indexData){
         for(Map.Entry<String, PostingList> indexDataEntry : indexData.entrySet()){

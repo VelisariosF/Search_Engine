@@ -28,17 +28,20 @@ public class WebCrawlerHandler {
     public static void main(String[] args) {
         //1st argument represents the starting page link
         String startPage = args[0];
+        //TODO delete
         System.out.println(startPage);
 
         //2nd argument represents the number of web pages to crawl
         int numOfSitesToCrawl = Integer.valueOf(args[1]);
+        //TODO delete
         System.out.println(numOfSitesToCrawl);
 
         //3rd argument represents whether the crawler should start crawling from the beginning
         //if true then start crawling from the beginning
         //if false then start crawling from the last crawled site
         boolean readFromStartPage = Boolean.valueOf(args[2]);
-        System.out.println(readFromStartPage);
+        //TODO delete
+        // System.out.println(readFromStartPage);
 
         //4th argument represents the number of threads that will take part at the crawling session
          int numOfThreads = Integer.valueOf(args[3]);
