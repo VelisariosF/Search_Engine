@@ -68,6 +68,9 @@ public class InvertedIndex  {
         termDocIdPairs.clear();
         //After the second pass has been completed save the id of the last document parsed by the index.
         FilesHandler.saveLastParsedDocIdToMetaDataFile(lastParsedDocId);
+
+        //save the index data to the data file
+        FilesHandler.saveIndexToFile(invertedIndexData);
     }
 
     //This method implements the first read of the collection

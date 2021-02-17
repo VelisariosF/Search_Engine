@@ -46,17 +46,19 @@ public class FilesHandlerWriteDocsToFileJob implements Runnable{
                 return;
         }
 
-        try(
+       try(
 
-                BufferedWriter bw = new BufferedWriter(new FileWriter(FilesHandler.PARENT_DIRECTORY + i + ".txt"));
-        ) {
+        BufferedWriter bw = new BufferedWriter(new FileWriter(FilesHandler.PARENT_DIRECTORY + i + ".txt"));
+       ) {
+
+
             bw.write(Tokenizer.extractText(new InputStreamReader(new URL(urlToCrawl).openStream()), i));
-            bw.close();
+           bw.close();
             i++;
             if(FilesHandler.markedLinksQueue.size() == 0)
                 stop = true;
 
-        }catch (IOException e){
+       }catch (IOException e){
             e.printStackTrace();
         }
 
@@ -77,7 +79,7 @@ public class FilesHandlerWriteDocsToFileJob implements Runnable{
          if(readFromStartPage){
            FilesHandler.documentsTitles.clear();
          }
-        // i = readFromStartPage? marked.size() - 1: FilesHandler.getNumOfDocsFromMetaDatFile() + marked.size() - 1;
+
         i = readFromStartPage? 0: FilesHandler.getNumOfDocsFromMetaDatFile() + 1;
     }
 }

@@ -45,8 +45,8 @@ public class QueryTest {
         System.out.println("It took : " +(double) (stopIndexing - startIndexing) / 1000000000 + "s");
         System.out.println("Give a query");
         ArrayList<Integer> topKDocs = null;
-        String query = getQuery();
-
+       // String query = getQuery();
+      String query = "war";
 if(QueryProcessor.queryIsAcceptable(query)) {
     int c = 0;
     double timeTaken = 0.0, avgTime = 0.0;

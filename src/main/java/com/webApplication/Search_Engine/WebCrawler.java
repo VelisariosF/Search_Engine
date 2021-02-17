@@ -2,6 +2,7 @@ package com.webApplication.Search_Engine;
 
 import org.jsoup.Jsoup;
 
+import java.awt.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -55,8 +56,6 @@ public class WebCrawler implements Runnable{
 
 
 
-
-
     /*
      * The crawler runs bfs algorithm
      * */
@@ -72,7 +71,9 @@ public class WebCrawler implements Runnable{
                  }catch (InterruptedException e){
                      e.printStackTrace();
                  }*/
+
                 crawlBFS();
+
                 Thread.yield();
 
         }
@@ -85,13 +86,12 @@ public class WebCrawler implements Runnable{
            //start crawling
 
                 br = new BufferedReader(new InputStreamReader(new URL(crawledUrl).openStream()));
-
-
                 sb = new StringBuilder();
                 while ((pageSourceCode = br.readLine()) != null) {
                     sb.append(pageSourceCode);
                 }
                 pageSourceCode = sb.toString();
+
                 matcherTag = patternTag.matcher(pageSourceCode);
                 //try to find patterns, that represent hyperlinks, inside the web
                 //page source code
@@ -109,6 +109,9 @@ public class WebCrawler implements Runnable{
                             queue.add(link);
                     }
                 }
+
+
+
 
             br.close();
 
@@ -133,6 +136,7 @@ public class WebCrawler implements Runnable{
             }else {
                 if(!stop){
                     marked.add(crawledUrl);
+
                     //TODO delete when project is completed
                     System.out.println(crawledUrl);
                     if(marked.size() == NUM_OF_SITES_TO_BE_CRAWLED) {
@@ -181,7 +185,6 @@ public class WebCrawler implements Runnable{
                 endPage = FilesHandler.getLastCrawledSite();
             }
         }else{
-
              FilesHandler.deleteAllFiles();
 
         }

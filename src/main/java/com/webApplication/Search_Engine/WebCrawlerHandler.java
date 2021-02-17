@@ -22,6 +22,11 @@ public class WebCrawlerHandler {
 
         //Save the contents of the links to separate files
         FilesHandler.writeDocsToFile(WebCrawler.getMarked(), readFromStartPage);
+
+        //Build the Indexer
+        InvertedIndex.BuildInvertedIndex_InMemory(readFromStartPage);
+
+
     }
 
 
@@ -48,6 +53,7 @@ public class WebCrawlerHandler {
 
          //Start crawling the web
          startCrawling(startPage, numOfSitesToCrawl, numOfThreads, readFromStartPage);
+
 
 
 

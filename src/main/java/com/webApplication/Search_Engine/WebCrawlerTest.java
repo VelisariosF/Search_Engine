@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 public class WebCrawlerTest {
     private static String root = "https://en.wikipedia.org/wiki/World_War_II";
     private static int numOfSitesToCrawl = 3;
-    private static boolean readFromStartPage = false;
+    private static boolean readFromStartPage = true;
     private static int numOfThreads = 10;
     private WebCrawler webCrawler = new WebCrawler();
     public static void startCrawling(){
@@ -54,15 +54,8 @@ public class WebCrawlerTest {
 
         FilesHandler.writeToFile(WebCrawler.getMarked(), readFromStartPage);
         FilesHandler.writeDocsToFile(WebCrawler.getMarked(), readFromStartPage);
-        /*InvertedIndex.BuildInvertedIndex_InMemory();
-        InvertedIndex.printData();
-        String query = "arsenal";
-
-       QueryProcessor.setQueryProcessorData(query, 2, false);
-         ArrayList<Integer> topKdocs = QueryProcessor.getTopKDocuments();
-         ArrayList<String> topKDocsLinks = FilesHandler.getTopKDocsLinks(topKdocs);
-        System.out.println(topKDocsLinks);*/
-
+        //Build the Indexer
+        InvertedIndex.BuildInvertedIndex_InMemory(readFromStartPage);
 
         avgTime = timeTaken / (double) c;
         double roundOfAvgTime = Math.round(avgTime * 100.0) / 100.0;

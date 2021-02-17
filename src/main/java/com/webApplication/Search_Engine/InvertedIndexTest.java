@@ -13,22 +13,15 @@ public class InvertedIndexTest {
 
 
         long startIndexing = System.nanoTime();
-        InvertedIndex.BuildInvertedIndex_InMemory(true);
+      //  InvertedIndex.BuildInvertedIndex_InMemory(true);
+
         long stopIndexing = System.nanoTime();
         System.out.println("loop: " + k + ", size: " + InvertedIndex.invertedIndexData.size());
         System.out.println("It took : " + (double) (stopIndexing - startIndexing) / 1000000000 + "s");
         k++;
     }
-       // InvertedIndex.printData();
-       FilesHandler.saveIndexToFile(InvertedIndex.invertedIndexData);
-
-
-
-
-
-
-
-
+        InvertedIndex.setInvertedIndexData(FilesHandler.loadIndexFromFile());
+       InvertedIndex.printData();
 
     }
 

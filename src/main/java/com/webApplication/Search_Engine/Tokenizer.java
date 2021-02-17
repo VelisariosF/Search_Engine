@@ -3,9 +3,8 @@ package com.webApplication.Search_Engine;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
-
-
 import org.jsoup.*;
+import opennlp.tools.stemmer.*;
 
 /**
  * This class implements the tokenizer
@@ -26,10 +25,11 @@ public class Tokenizer {
             while ((line = br.readLine()) != null) {
                 sb.append(line);
             }
-
+     br.close();
         }catch (Exception e){
             e.printStackTrace();
         }
+
         String textOnly = null;
         String documentTitle = null;
         if(sb != null){
@@ -39,13 +39,13 @@ public class Tokenizer {
             FilesHandler.documentsTitles.put(documentId, documentTitle);
             //get the documents text
             textOnly = Jsoup.parse(sb.toString()).text();
+            textOnly = textOnly.replaceAll("[^a-zA-Z]", " ").toLowerCase();
         }else {
             textOnly = "";
         }
 
         return textOnly;
     }
-
 
 
 
@@ -71,10 +71,9 @@ public class Tokenizer {
 
    //This method is used to tokenize a given string
     public static String tokenize(String s){
-        s = s.trim().replaceAll("[^a-zA-Z]", " ")
+        s = s.trim().replaceAll("\\p{Punct}"," ")
                 .toLowerCase()
-                .replace("\n", " ")
-                .replaceAll("\\p{Punct}"," ");
+                .replaceAll("[^a-zA-Z]", " ");
         String[] tokens = s.split(" ");
         if(tokens.length > 1){
             s = s.substring(0 ,s.indexOf(" "));
@@ -84,10 +83,10 @@ public class Tokenizer {
         if(isStopWord(s))
             return " ";
         else{
-            //TODO stem the term(create a function called stemTheTerm)
-            // s = stemTheTerm(s);
+             s = stemTheTerm(s);
             return s;
         }
+
 
     }
 
@@ -144,5 +143,11 @@ public class Tokenizer {
        return queue;
    }
 
+
+
+   public static String stemTheTerm(String term){
+        PorterStemmer porterStemmer = new PorterStemmer();
+        return porterStemmer.stem(term);
+   }
 
 }

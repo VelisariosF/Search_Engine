@@ -1,6 +1,9 @@
 package com.webApplication.Search_Engine;
 
+import org.jsoup.Jsoup;
+
 import java.io.*;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -74,6 +77,7 @@ public class FilesHandler {
         }
 
 
+
     }
 
     //This function is used to write the content of crawled documents to files
@@ -83,7 +87,7 @@ public class FilesHandler {
         //have been crawled are the ones that are already saved to the file +
         //the ones that were crawled in this session
         if(!readFromStartPage)
-            numOfSites= FilesHandler.getNumOfDocsFromMetaDatFile() + marked.size();
+            numOfSites = FilesHandler.getNumOfDocsFromMetaDatFile() + marked.size();
 
 
         //initialize the data for the file handler job that saves
@@ -299,7 +303,7 @@ public class FilesHandler {
             String word;
             while(scanner.hasNext()){
                 word = Tokenizer.tokenize(scanner.next());
-                if(!word.equals(" ")){
+                if(!word.isBlank()){
                   docTerms.add(word);
                }
             }
@@ -476,4 +480,7 @@ public class FilesHandler {
     public static ConcurrentHashMap<Integer, String> getDocumentsTitles() {
         return documentsTitles;
     }
+
+
+
 }
