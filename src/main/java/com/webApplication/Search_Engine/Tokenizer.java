@@ -11,10 +11,7 @@ import opennlp.tools.stemmer.*;
  */
 public class Tokenizer {
     //this set contains the stopwords
-
-    private static final HashSet<String> stopwords = new HashSet<>();
-    //private static String[] queryTerms;
-    private final static String STOPWORDS_FILE_PATH = "/home/velisarios/Desktop/DATA/apache-tomcat-8.5.61/bin/SearchEngineData/stopwords.txt";
+    private static final HashSet<String> stopwords = FilesHandler.getStopwords();
     //This method is used to extract  and return the text from a web page source code
     public static String extractText(Reader reader, int documentId) {
         StringBuilder sb = new StringBuilder();
@@ -112,21 +109,7 @@ public class Tokenizer {
         }
         return tokenizedWords;
     }
-    //This method is used to initialize the stopWords set
-    public static void initStopWords(){
-        try{
-            File file = new File(STOPWORDS_FILE_PATH);
-            Scanner scanner = new Scanner(file);
 
-            while (scanner.hasNext()){
-                stopwords.add(scanner.next());
-            }
-            scanner.close();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-    }
 
     public static boolean isStopWord(String word){
        return stopwords.contains(word);

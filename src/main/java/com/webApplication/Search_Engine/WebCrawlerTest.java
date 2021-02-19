@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 public class WebCrawlerTest {
     private static String root = "https://en.wikipedia.org/wiki/World_War_II";
     private static int numOfSitesToCrawl = 3;
-    private static boolean readFromStartPage = true;
+    private static boolean readFromStartPage = false;
     private static int numOfThreads = 10;
     private WebCrawler webCrawler = new WebCrawler();
     public static void startCrawling(){

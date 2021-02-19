@@ -24,9 +24,12 @@
  if(request.getParameter("querySearched") != null) {
      //if its pressed get the user input from the input field
      String query = request.getParameter("user_Input");
-     if(QueryProcessor.queryIsAcceptable(query)){
+
+     //get the number k
+     int topK = Integer.parseInt(request.getParameter("topK"));
+     if(QueryProcessor.queryIsAcceptable(query) && topK != 0){
             //set the data for the query processor
-         QueryProcessor.setQueryProcessorData(query, 6, false);
+         QueryProcessor.setQueryProcessorData(query, topK, false);
          //get the top k documents
          ArrayList<Integer> topKDocsIds = QueryProcessor.getTopKDocuments();
          //get the urls
@@ -39,6 +42,7 @@
          session.setAttribute("topKDocsIds", topKDocsIds);
          session.setAttribute("topKDocsUrls", topKDocsUrls);
          session.setAttribute("topKDocsTitles", topKDocsTitles);
+         session.setAttribute("topK", topK);
      } else{
          session.setAttribute("topKDocsUrls", null);
          session.setAttribute("topKDocsTitles", null);

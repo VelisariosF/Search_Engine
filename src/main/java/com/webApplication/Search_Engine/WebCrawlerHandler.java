@@ -1,5 +1,9 @@
 package com.webApplication.Search_Engine;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+
 public class WebCrawlerHandler {
 
     //This method assigns in every thread a crawling job
@@ -30,27 +34,33 @@ public class WebCrawlerHandler {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MalformedURLException {
         //1st argument represents the starting page link
         String startPage = args[0];
-        //TODO delete
+
         System.out.println(startPage);
 
         //2nd argument represents the number of web pages to crawl
         int numOfSitesToCrawl = Integer.valueOf(args[1]);
-        //TODO delete
+
         System.out.println(numOfSitesToCrawl);
 
         //3rd argument represents whether the crawler should start crawling from the beginning
-        //if true then start crawling from the beginning
-        //if false then start crawling from the last crawled site
-        boolean readFromStartPage = Boolean.valueOf(args[2]);
-        //TODO delete
-        // System.out.println(readFromStartPage);
+        //if 0 then start crawling from the beginning
+        //if 1 then start crawling from the last crawled site
+        int choice = Integer.valueOf(args[2]);
+        boolean readFromStartPage;
+        if(choice == 0)
+            readFromStartPage = true;
+        else
+            readFromStartPage = false;
+
+         System.out.println(readFromStartPage);
 
         //4th argument represents the number of threads that will take part at the crawling session
          int numOfThreads = Integer.valueOf(args[3]);
 
+        System.out.println(numOfThreads);
          //Start crawling the web
          startCrawling(startPage, numOfSitesToCrawl, numOfThreads, readFromStartPage);
 

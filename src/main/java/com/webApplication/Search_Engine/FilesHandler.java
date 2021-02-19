@@ -1,9 +1,6 @@
 package com.webApplication.Search_Engine;
 
-import org.jsoup.Jsoup;
-
 import java.io.*;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -15,11 +12,12 @@ import java.util.concurrent.*;
 public class FilesHandler {
     //TODO might change this comment when project is complete
     //Here put the path of the tomcat server bin
-    protected static String filesPath = "/home/velisarios/Desktop/DATA/apache-tomcat-8.5.61/bin/SearchEngineData/CrawlerDocs/";
+    protected static String filesPath = "/home/velisarios/Server/apache-tomcat-8.5.61/bin/SearchEngineData/";
+
     //TODO delete readFilePath when project is completed
-    protected static String readFilePath ="Documents/";
-    //TODO make private
-    protected final static String CRAWLED_SITES_FILE_PATH = filesPath + "crawledSites.txt", DOCUMENTS_TITLES = filesPath + "pageTitles.dat",
+    protected static String documentsFolderPath ="Documents/";
+
+    private final static String CRAWLED_SITES_FILE_PATH = filesPath + "crawledSites.txt", DOCUMENTS_TITLES = filesPath + "pageTitles.dat",
             METADATA_FILE_PATH = filesPath + "metaData.txt", INDEX_FILE_PATH = filesPath + "INDEX.dat";
 
     //This queue is used by the threads that write the content of the documents
@@ -28,8 +26,10 @@ public class FilesHandler {
 
     //This is the directory that contains the documents of the collection
     //*in this directory put only documents of the collection
-    protected static String  PARENT_DIRECTORY = filesPath + readFilePath;
+    protected static String  PARENT_DIRECTORY = filesPath + documentsFolderPath;
 
+    //path to the file that contains stop words
+    private final static String STOPWORDS_FILE_PATH = filesPath + "stopwords.txt";
 
     //This set is used to as a helper for the crawler in order to understand
     //which links have been crawled from a previous crawling session
@@ -43,6 +43,9 @@ public class FilesHandler {
     //If index is not going to be rebuilt then we must insert terms that exist to the new documents
     //that were crawled (the last document and after)
     private static int lastParsedDocId = 0;
+
+    //this set contains the stopwords
+    private static final HashSet<String> stopwords = new HashSet<>();
 
     //Number of threads that will be used to save the documents content in to the files
     private final static  int numOfThreads = 10;
@@ -255,7 +258,10 @@ public class FilesHandler {
     //This function is used to return the names of the documents that
     //are saved.
     public static ArrayList<String> getDocs() {
-        Tokenizer.initStopWords();
+        //initialize the stopwords set
+        initStopWords();
+
+
         ArrayList<String> documents = new ArrayList<>();
         try{
             File file = new File(PARENT_DIRECTORY);
@@ -476,11 +482,34 @@ public class FilesHandler {
           }
         return docTitles;
     }
-
+    //This returns the titles
     public static ConcurrentHashMap<Integer, String> getDocumentsTitles() {
         return documentsTitles;
     }
 
+   //this returns the path to the stopwords file
+    public static String getStopwordsFilePath() {
+        return STOPWORDS_FILE_PATH;
+    }
 
+    //This method is used to initialize the stopWords set
+    public static void initStopWords(){
+        try{
+            File file = new File(STOPWORDS_FILE_PATH);
+            Scanner scanner = new Scanner(file);
 
+            while (scanner.hasNext()){
+                stopwords.add(scanner.next());
+            }
+            scanner.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    //returns the stopwords
+    public static HashSet<String> getStopwords() {
+        return stopwords;
+    }
 }
