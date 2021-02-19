@@ -56,7 +56,7 @@ public class Tokenizer {
         if(!blankQuery){
             queryTerms = query.split("[^a-zA-Z]");
             for(int i = 0; i < queryTerms.length; i++) {
-                queryTerms[i] = Tokenizer.tokenize(queryTerms[i]);
+                queryTerms[i] = tokenize(queryTerms[i]);
                 if(isStopWord(queryTerms[i])){
                     queryTerms[i] = " ";
                 }
@@ -74,12 +74,12 @@ public class Tokenizer {
         s = s.trim().replaceAll("\\p{Punct}"," ")
                 .toLowerCase()
                 .replaceAll("[^a-zA-Z]", " ");
-        String[] tokens = s.split(" ");
+      /*  String[] tokens = s.split(" ");
         if(tokens.length > 1){
             s = s.substring(0 ,s.indexOf(" "));
         }
         s = s.trim();
-
+*/
         if(isStopWord(s))
             return " ";
         else{
@@ -98,7 +98,7 @@ public class Tokenizer {
 
         HashMap<String, Integer> tokenizedWords = new HashMap<>();
         for(int i = 0; i < queryTerms.length; i++){
-            queryTerms[i] = Tokenizer.tokenize(queryTerms[i]);
+            queryTerms[i] = tokenize(queryTerms[i]);
 
             if(!isStopWord(queryTerms[i])){
                 if(!tokenizedWords.containsKey(queryTerms[i])){
@@ -144,7 +144,7 @@ public class Tokenizer {
    }
 
 
-
+  //This method is used to stem the term
    public static String stemTheTerm(String term){
         PorterStemmer porterStemmer = new PorterStemmer();
         return porterStemmer.stem(term);
