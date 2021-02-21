@@ -115,16 +115,6 @@ public class Tokenizer {
        return stopwords.contains(word);
     }
 
-    //TODO delete afterwards
-    //this method returns the queue that are contained in the queryTerms pairs
-   public static LinkedBlockingQueue<String> getQueueQueryTerms(HashMap<String, Integer> queryTerms){
-       LinkedBlockingQueue<String> queue = new LinkedBlockingQueue<>();
-       for(String term : queryTerms.keySet()){
-           queue.add(term);
-       }
-
-       return queue;
-   }
 
 
   //This method is used to stem the term

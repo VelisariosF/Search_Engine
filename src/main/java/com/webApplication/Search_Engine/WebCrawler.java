@@ -126,8 +126,8 @@ public class WebCrawler implements Runnable{
                 if (!crawledUrl.equals(endPage) && !helper.contains(crawledUrl) && !stop) {
                     marked.add(crawledUrl);
 
-                    //TODO delete when project is completed
-                    System.out.println(crawledUrl);
+
+                    System.out.println("Crawling: " + crawledUrl);
                     if(marked.size() == NUM_OF_SITES_TO_BE_CRAWLED) {
                         stop = true;
                     }
@@ -137,8 +137,8 @@ public class WebCrawler implements Runnable{
                 if(!stop){
                     marked.add(crawledUrl);
 
-                    //TODO delete when project is completed
-                    System.out.println(crawledUrl);
+
+                    System.out.println("Crawling: " + crawledUrl);
                     if(marked.size() == NUM_OF_SITES_TO_BE_CRAWLED) {
                         stop = true;
                     }
@@ -184,10 +184,10 @@ public class WebCrawler implements Runnable{
             }else {
                 endPage = FilesHandler.getLastCrawledSite();
             }
-        }else{
-             FilesHandler.deleteAllFiles();
-
+        }else {
+            FilesHandler.deleteAllFiles();
         }
+
 
 
         queue.clear();

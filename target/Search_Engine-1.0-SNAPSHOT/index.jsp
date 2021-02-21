@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Title</title>
 </head>
-<body>
+<body style="overflow: auto">
 
 
 <form style="padding-top: 90px" action="" method="POST" >
@@ -23,13 +23,6 @@
     <input type="number" name="topK" placeholder="k number"   min="0" required >
     <button type="submit" name="querySearched"  value="Search" ><i class="fa fa-search"></i></button>
 </form>
-<%
-   PrintWriter printWriter = response.getWriter();
-
-    String webApp = System.getProperty("catalina.home");
-   printWriter.println(webApp + "/bin");
-
-%>
 
 
 </body>

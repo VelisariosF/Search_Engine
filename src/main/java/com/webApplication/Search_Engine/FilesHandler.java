@@ -11,13 +11,14 @@ import java.util.concurrent.*;
  * This class is used for handling situations that engage file processing.
  */
 public class FilesHandler {
-    //tomcat server bin folder
-    protected static String tomcatBin = System.getProperty("catalina.home") + "/bin/";
-    //TODO might change this comment when project is complete
+    //here put tomcat server bin folder full path
+    //example : /home/username/Server/apache-tomcat-8.5.61/bin/
+    protected static String tomcatBin = "/home/velisarios/Server/apache-tomcat-8.5.61/bin/";
+
     //Here put the path of the tomcat server bin
     protected static String filesPath = tomcatBin + "SearchEngineData/";
 
-    //TODO delete readFilePath when project is completed
+    //folder containing all documents of the collection
     protected static String documentsFolderPath ="Documents/";
 
     //paths to the files
@@ -244,21 +245,7 @@ public class FilesHandler {
         }
         return docUrls;
     }
-    //TODO delete afterwards
-   /* public static ArrayList<Integer> getDocIdsBasedOnNames(String[] names){
-        ArrayList<String> allDocsNames = getDocs();
-        ArrayList<Integer> ids = new ArrayList<>();
-        for(int i = 0; i < names.length; i++){
-            for(int j = 0; i < allDocsNames.size(); i++){
-                if(names[i].equals(allDocsNames.get(i))){
 
-
-                }
-            }
-        }
-
-        return ids;
-    }*/
 
     //This function is used to return the names of the documents that
     //are saved.
@@ -309,18 +296,21 @@ public class FilesHandler {
         ArrayList<String> docTerms = new ArrayList<>();
         try{
             File file = new File(fileName);
-            Scanner scanner = new Scanner(file);
+            if(file.length() != 0){
+                Scanner scanner = new Scanner(file);
 
-            String word;
-            while(scanner.hasNext()){
-                word = Tokenizer.tokenize(scanner.next());
-                if(!word.isBlank()){
-                  docTerms.add(word);
-               }
+                String word;
+                while(scanner.hasNext()){
+                    word = Tokenizer.tokenize(scanner.next());
+                    if(!word.isBlank()){
+                        docTerms.add(word);
+                    }
+                }
+
+
+                scanner.close();
             }
 
-
-            scanner.close();
 
 
 
@@ -340,7 +330,7 @@ public class FilesHandler {
 
     public static void deleteAllFiles(){
         File directory = new File(PARENT_DIRECTORY);
-      // Get all files in directory
+        // Get all files in directory
         File[] files = directory.listFiles();
         for (File file : files) {
             if (!file.delete()) {
@@ -351,27 +341,6 @@ public class FilesHandler {
 
     }
 
-  //This method returns the topK documents links
-  public static ArrayList<String> getTopKDocsLinks(ArrayList<Integer> topKDocsIds){
-        ArrayList<String> topKDocsLinks = new ArrayList<>();
-        try{
-            BufferedReader reader = new BufferedReader(new FileReader(CRAWLED_SITES_FILE_PATH));
-            String link = null;
-            int k = 0;
-            while ((link = reader.readLine()) != null && k < topKDocsIds.size()){
-                topKDocsLinks.add(link);
-                k++;
-            }
-
-            reader.close();
-
-        }  catch (IOException e){
-            e.printStackTrace();
-        }
-
-
-      return topKDocsLinks;
-    }
 
 
     //This method writes the index object to file
@@ -420,7 +389,7 @@ public class FilesHandler {
             scanner.close();
 
         }catch (IOException e){
-            e.printStackTrace();
+            lastParsedDocId = 0;
         }
 
         return lastParsedDocId;
@@ -489,37 +458,6 @@ public class FilesHandler {
           }
         return docTitles;
     }
-    //This returns the titles
-    public static ConcurrentHashMap<Integer, String> getDocumentsTitles() {
-        return documentsTitles;
-    }
-
-   //this returns the path to the stopwords file
-    public static String getStopwordsFilePath() {
-        return STOPWORDS_FILE_PATH;
-    }
-
-    //This method is used to initialize the stopWords set
-    public static void initStopWords(){
-        try{
-            File file = new File(STOPWORDS_FILE_PATH);
-            Scanner scanner = new Scanner(file);
-
-            while (scanner.hasNext()){
-                stopwords.add(scanner.next());
-            }
-            scanner.close();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-    }
-
-    //returns the stopwords
-    public static HashSet<String> getStopwords() {
-        return stopwords;
-    }
-
 
     //this saves the length of the documents to disk
     public static void saveLengthsToDisk(HashMap<Integer, Double> docIdLdPairs){
@@ -551,20 +489,29 @@ public class FilesHandler {
         return new HashMap<>();
     }
 
-    //This method creates folders
-    public static void createFiles(){
-        //create main Directory
-        File mainDirectory = new File(filesPath);
-        if (!mainDirectory.exists()){
-            mainDirectory.mkdir();
-        }
 
-        //create file that contains all documents
-        File allDocsDir = new File(documentsFolderPath);
-        if (!allDocsDir.exists()){
-            allDocsDir.mkdir();
-        }
 
+    //This method is used to initialize the stopWords set
+    public static void initStopWords(){
+        try{
+            File file = new File(STOPWORDS_FILE_PATH);
+            Scanner scanner = new Scanner(file);
+
+            while (scanner.hasNext()){
+                stopwords.add(scanner.next());
+            }
+            scanner.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
+
+    //returns the stopwords
+    public static HashSet<String> getStopwords() {
+        return stopwords;
+    }
+
+
+
 }

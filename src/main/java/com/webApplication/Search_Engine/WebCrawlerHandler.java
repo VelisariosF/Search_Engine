@@ -8,7 +8,7 @@ public class WebCrawlerHandler {
 
     //This method assigns in every thread a crawling job
     public static void startCrawling(String startPage, int numOfSitesToCrawl, int numOfThreads, boolean readFromStartPage){
-        FilesHandler.createFiles();
+
         //Initialize the data for the crawler
         WebCrawler.initData(startPage, numOfSitesToCrawl, readFromStartPage, numOfThreads);
         //Create the threads that will process the crawler

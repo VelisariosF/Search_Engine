@@ -64,7 +64,6 @@ public class QueryAccumulators implements Runnable{
                     //coordinate from the newQueryVector)
                     int termPosInLexicon = termPostingList.getTermPosInLexicon();
                     //if feedback is provided then get the term's weight from the new query vector
-                    //TODO should query vector be the same a query vector?
                     Wtq = QueryProcessor.newQueryVector.get(termPosInLexicon);
                 }
                 synchronized (this){

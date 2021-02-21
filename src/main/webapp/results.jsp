@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="index.css">
     <title>Title</title>
 </head>
-<body>
+<body style="overflow: auto">
 
 
 <%

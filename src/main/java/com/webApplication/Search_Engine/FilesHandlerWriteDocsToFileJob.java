@@ -3,6 +3,7 @@ package com.webApplication.Search_Engine;
 import java.io.*;
 import org.jsoup.Jsoup;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.Set;
@@ -51,15 +52,18 @@ public class FilesHandlerWriteDocsToFileJob implements Runnable{
         BufferedWriter bw = new BufferedWriter(new FileWriter(FilesHandler.PARENT_DIRECTORY + i + ".txt"));
        ) {
 
-
+            System.out.println("Saving Contents of document " + i);
             bw.write(Tokenizer.extractText(new InputStreamReader(new URL(urlToCrawl).openStream()), i));
-           bw.close();
+            bw.close();
             i++;
             if(FilesHandler.markedLinksQueue.size() == 0)
                 stop = true;
 
-       }catch (IOException e){
-            e.printStackTrace();
+       }catch (MalformedURLException e) {
+           e.printStackTrace();
+
+       }catch (IOException e1){
+            e1.printStackTrace();
         }
 
     }
@@ -80,6 +84,6 @@ public class FilesHandlerWriteDocsToFileJob implements Runnable{
            FilesHandler.documentsTitles.clear();
          }
 
-        i = readFromStartPage? 0: FilesHandler.getNumOfDocsFromMetaDatFile() + 1;
+        i = readFromStartPage? 0: FilesHandler.getNumOfDocsFromMetaDatFile();
     }
 }

@@ -5,8 +5,8 @@ import java.lang.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Collectors;
-// TODO Fix after this after html page is completed:
-// After feedback results , if not a feedback is asked change the feedback variable to false
+
+
 
 /**
  * This class implements the query processor
@@ -62,7 +62,6 @@ public class QueryProcessor {
     protected static HashMap<Integer, ArrayList<Double>> docsVectors = new HashMap<>();
 
     //Query's vector
-    //TODO change to protected
     public static ArrayList<Double> queryVector = new ArrayList<>(vectorDimensions);
 
     //The new query vector that's calculated after the feedback
@@ -183,11 +182,7 @@ public class QueryProcessor {
 
 
 
-        //TODO actions:
-        // a)print the list of top K documents to the user...
-        // b)ask user to choose the relevant docs...
-        // c)somehow try getting an array that contains the id's of the relevant documents
-        // *this should be done through an html page
+
        // ArrayList<Integer> relevantDocs = new ArrayList<>();//get them from the user
 
 

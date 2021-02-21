@@ -85,20 +85,24 @@ public class InvertedIndex  {
          *
          */
 
-        for(int i = lastParsedDocId; i < NUMBER_OF_DOCUMENTS; i++){
+        for(int i = lastParsedDocId; i < NUMBER_OF_DOCUMENTS; i++) {
             int documentId = i;
 
-            //initialize the data for the job
-            IndexInsertJob.initData(documentId, FilesHandler.getDocumentWords(FilesHandler.getParentDirectory() + documentNames.get(documentId)));
-            //create an insertion job
-            IndexInsertJob indexInsertJob = new IndexInsertJob();
-            //create threads to process the job
-            for (int j = 0 ; j < numOfThreads; j++){
-                new Thread(indexInsertJob).start();
+            if (FilesHandler.getDocumentWords(FilesHandler.getParentDirectory() + documentNames.get(documentId)).size() == 0) {
+                continue;
             }
-            while (!IndexInsertJob.stop){}
-        }
+            //initialize the data for the job
+                IndexInsertJob.initData(documentId, FilesHandler.getDocumentWords(FilesHandler.getParentDirectory() + documentNames.get(documentId)));
+                //create an insertion job
+                IndexInsertJob indexInsertJob = new IndexInsertJob();
+                //create threads to process the job
+                for (int j = 0; j < numOfThreads; j++) {
+                    new Thread(indexInsertJob).start();
+                }
+                while (!IndexInsertJob.stop) {
+                }
 
+        }
 
     }
 
@@ -108,21 +112,26 @@ public class InvertedIndex  {
         * 2nd pass of the collection where every (d,ftd) for every term is calculated
         * */
         int documentId = 0;
-        for(int i = lastParsedDocId; i < NUMBER_OF_DOCUMENTS; i++){
-            documentId =  i;
-            //initialize the data for the job
-            IndexCalcDataJob.initData(documentId, FilesHandler.getDocumentWords(FilesHandler.getParentDirectory() + documentNames.get(documentId)));
-            IndexCalcDataJob.stop = false;
-            //create a data calculation job
-
-            IndexCalcDataJob indexCalcDataJob = new IndexCalcDataJob();
-            //create threads to process the job
-            for (int j = 0 ; j < numOfThreads; j++){
-                 new Thread(indexCalcDataJob).start();
+        for(int i = lastParsedDocId; i < NUMBER_OF_DOCUMENTS; i++) {
+            documentId = i;
+            if (FilesHandler.getDocumentWords(FilesHandler.getParentDirectory() + documentNames.get(documentId)).size() == 0) {
+                continue;
             }
-            while (!IndexCalcDataJob.stop){}
+                //initialize the data for the job
+                IndexCalcDataJob.initData(documentId, FilesHandler.getDocumentWords(FilesHandler.getParentDirectory() + documentNames.get(documentId)));
+                IndexCalcDataJob.stop = false;
+                //create a data calculation job
 
-        }
+                IndexCalcDataJob indexCalcDataJob = new IndexCalcDataJob();
+                //create threads to process the job
+                for (int j = 0; j < numOfThreads; j++) {
+                    new Thread(indexCalcDataJob).start();
+                }
+                while (!IndexCalcDataJob.stop) {
+                }
+
+            }
+
 
         //After the second pass has been completed save the id of the last document parsed by the index.
         lastParsedDocId = documentId;

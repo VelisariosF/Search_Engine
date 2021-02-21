@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="index.css">
     <title>Title</title>
 </head>
-<body>
+<body style="overflow: auto">
 
 <h3 style="margin-left: 39%; text-decoration: underline">Choose relevant documents</h3>
 <form action="" method="POST" >

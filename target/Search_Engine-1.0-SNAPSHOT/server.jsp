@@ -17,7 +17,7 @@
 * This is the server. Server is responsible for every situation
 *
 * */
-    FilesHandler.createFiles();
+
     //load the index in memory
     InvertedIndex.setInvertedIndexData(FilesHandler.loadIndexFromFile());
     //also load the lengths

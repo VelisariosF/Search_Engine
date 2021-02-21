@@ -8,8 +8,8 @@ import java.util.concurrent.TimeUnit;
 
 public class WebCrawlerTest {
     private static String root = "https://en.wikipedia.org/wiki/World_War_II";
-    private static int numOfSitesToCrawl = 3;
-    private static boolean readFromStartPage = true;
+    private static int numOfSitesToCrawl = 30;
+    private static boolean readFromStartPage = false;
     private static int numOfThreads = 10;
     private WebCrawler webCrawler = new WebCrawler();
     public static void startCrawling(){
@@ -38,6 +38,7 @@ public class WebCrawlerTest {
     }
 
     public static void main(String[] args){
+
         int c = 0;
         double timeTaken = 0.0, avgTime = 0.0;
         while(c < 1){
