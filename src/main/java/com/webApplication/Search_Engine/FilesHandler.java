@@ -17,8 +17,10 @@ public class FilesHandler {
     //TODO delete readFilePath when project is completed
     protected static String documentsFolderPath ="Documents/";
 
+    //paths to the files
     private final static String CRAWLED_SITES_FILE_PATH = filesPath + "crawledSites.txt", DOCUMENTS_TITLES = filesPath + "pageTitles.dat",
-            METADATA_FILE_PATH = filesPath + "metaData.txt", INDEX_FILE_PATH = filesPath + "INDEX.dat";
+            METADATA_FILE_PATH = filesPath + "metaData.txt", INDEX_FILE_PATH = filesPath + "INDEX.dat",
+            LENGTH_OF_DOCUMENTS_FILE_PATH = filesPath + "lengths.dat";
 
     //This queue is used by the threads that write the content of the documents
     //to the files
@@ -371,6 +373,8 @@ public class FilesHandler {
 
     //This method writes the index object to file
     public static void saveIndexToFile(HashMap<String, PostingList> index){
+        //before saving the index save the lengths
+        saveLengthsToDisk(QueryProcessor.docIdLdPairs);
         try{
             FileOutputStream fos = new FileOutputStream(INDEX_FILE_PATH);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -511,5 +515,36 @@ public class FilesHandler {
     //returns the stopwords
     public static HashSet<String> getStopwords() {
         return stopwords;
+    }
+
+
+    //this saves the length of the documents to disk
+    public static void saveLengthsToDisk(HashMap<Integer, Double> docIdLdPairs){
+        try{
+            FileOutputStream fos = new FileOutputStream(LENGTH_OF_DOCUMENTS_FILE_PATH);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(docIdLdPairs);
+            oos.close();
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    //This method loads the Length of the documents from the file
+    public static HashMap<Integer, Double> loadLengthsFromFile(){
+        try {
+            FileInputStream fileIn = new FileInputStream(LENGTH_OF_DOCUMENTS_FILE_PATH);
+            ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+
+            Object obj = objectIn.readObject();
+
+            objectIn.close();
+            return (HashMap<Integer, Double>) obj;
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return new HashMap<>();
     }
 }

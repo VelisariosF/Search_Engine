@@ -11,10 +11,10 @@ public class WebCrawlerHandler {
 
         //Initialize the data for the crawler
         WebCrawler.initData(startPage, numOfSitesToCrawl, readFromStartPage, numOfThreads);
-        WebCrawler webCrawler = new WebCrawler();
         //Create the threads that will process the crawler
         for(int i = 0; i < numOfThreads; i++){
-            new Thread(webCrawler).start();
+
+            new Thread(new WebCrawler()).start();
         }
         while (!WebCrawler.stop){}
 
@@ -38,29 +38,25 @@ public class WebCrawlerHandler {
         //1st argument represents the starting page link
         String startPage = args[0];
 
-        System.out.println(startPage);
-
         //2nd argument represents the number of web pages to crawl
-        int numOfSitesToCrawl = Integer.valueOf(args[1]);
+        int numOfSitesToCrawl = Integer.parseInt(args[1]);
 
-        System.out.println(numOfSitesToCrawl);
 
         //3rd argument represents whether the crawler should start crawling from the beginning
         //if 0 then start crawling from the beginning
         //if 1 then start crawling from the last crawled site
-        int choice = Integer.valueOf(args[2]);
+        int choice = Integer.parseInt(args[2]);
         boolean readFromStartPage;
         if(choice == 0)
             readFromStartPage = true;
         else
             readFromStartPage = false;
 
-         System.out.println(readFromStartPage);
 
         //4th argument represents the number of threads that will take part at the crawling session
-         int numOfThreads = Integer.valueOf(args[3]);
+         int numOfThreads = Integer.parseInt(args[3]);
 
-        System.out.println(numOfThreads);
+
          //Start crawling the web
          startCrawling(startPage, numOfSitesToCrawl, numOfThreads, readFromStartPage);
 

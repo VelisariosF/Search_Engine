@@ -13,13 +13,14 @@
 <%@ page import="com.webApplication.Search_Engine.*" %>
 
 <%
-    //TODO index should be rebuilt once the crawler starts reading from the beginning
 /*
 * This is the server. Server is responsible for every situation
 *
 * */
     //load the index in memory
     InvertedIndex.setInvertedIndexData(FilesHandler.loadIndexFromFile());
+    //also load the lengths
+    QueryProcessor.setDocIdLdPairs(FilesHandler.loadLengthsFromFile());
  //check if the searched button from the index.jsp is pressed
  if(request.getParameter("querySearched") != null) {
      //if its pressed get the user input from the input field

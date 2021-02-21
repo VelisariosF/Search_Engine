@@ -69,8 +69,13 @@ public class InvertedIndex  {
         //After the second pass has been completed save the id of the last document parsed by the index.
         FilesHandler.saveLastParsedDocIdToMetaDataFile(lastParsedDocId);
 
+        //when the index is built calculate the length of each document
+        QueryProcessor.calculateLengthOfDocuments();
+
         //save the index data to the data file
         FilesHandler.saveIndexToFile(invertedIndexData);
+
+
     }
 
     //This method implements the first read of the collection
@@ -157,6 +162,8 @@ public class InvertedIndex  {
     public static void setInvertedIndexData(HashMap<String, PostingList> invertedIndexData) {
         InvertedIndex.invertedIndexData = invertedIndexData;
     }
+
+
 
     /**
      * This class implements  a pair (term, docId)

@@ -75,15 +75,17 @@ public class QueryProcessor {
     protected static ArrayList<Integer> topKDocs = new ArrayList<>(), prevTopKDocs = new ArrayList<>();
 
     // Lq : length of query
-    // Ld : length of a specific document
-    protected static double Lq = 0.0, Ld = 0.0;
+    protected static double Lq = 0.0;
+
+    //contains the length of each document
+    protected static HashMap<Integer, Double> docIdLdPairs = new HashMap<>();
 
     //This variable is used to stop the running threads
     protected static boolean feedBackProvided;
 
     public static int feedBackTimes = 0;
 
-    protected static final int numOfThreads = 100;
+    protected static final int numOfThreads = 30;
 
     //This queue contains the terms of the query and is used by the treads
     //Each thread gets each term from this queue
@@ -109,9 +111,9 @@ public class QueryProcessor {
             topKDocs.clear();
             docsAccumulators = calculateDocsAccumulators();
             Lq = Math.sqrt(Lq);
-            Ld = Math.sqrt(Ld);
 
             for (int i : docsAccumulators.keySet()) {
+                double Ld = docIdLdPairs.get(i);
                 docsAccumulators.replace(i, docsAccumulators.get(i) / (Lq * Ld));
             }
 
@@ -384,7 +386,6 @@ public class QueryProcessor {
         topKdocsVectors.clear();
         topKDocs.clear();
         Lq = 0.0;
-        Ld = 0.0;
         //calculate queryTermsQueue
         calcQueryTerms(query);
         QueryHelper.constructQueryPosTermPair(indexData);
@@ -399,9 +400,13 @@ public class QueryProcessor {
         queryTerms = Tokenizer.tokenizeQuery(query);
     }
 
+    public static void calculateLengthOfDocuments(){
+        docIdLdPairs = QueryHelper.getLengthOfDocuments();
 
-
-
-
+    }
+   //setter for the lengths of the documents
+    public static void setDocIdLdPairs(HashMap<Integer, Double> docIdLdPairs) {
+        QueryProcessor.docIdLdPairs = docIdLdPairs;
+    }
 }
 

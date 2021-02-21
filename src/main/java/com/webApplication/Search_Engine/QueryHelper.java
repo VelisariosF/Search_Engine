@@ -29,6 +29,8 @@ public class QueryHelper {
     * */
     private static HashMap<Integer, String> queryPosTermPair = new HashMap<>();
 
+    protected static LinkedBlockingQueue<String> indexTerms = new LinkedBlockingQueue<>();
+
    // private static int dimension = QueryProcessor.vectorDimensions;
     //This method is used to construct the queryPosTermPair hashMap based on the data
     //of the index
@@ -62,6 +64,27 @@ public class QueryHelper {
 
         //getTopKDocuments(queryBuilder.toString(), topK, true);
         return queryBuilder.toString();
+    }
+
+    //This method calculates and returns the length of each document
+    public static HashMap<Integer, Double> getLengthOfDocuments(){
+        QueryProcessor.docIdLdPairs = new HashMap<>();
+        int N = QueryProcessor.NUMBER_OF_DOCUMENTS;
+        for(int i = 0; i < N; i ++){
+            QueryProcessor.docIdLdPairs.put(i, 0.0);
+        }
+        LengthOfDocsCalculator.initData(InvertedIndex.invertedIndexData);
+        LengthOfDocsCalculator lengthOfDocsCalculator = new LengthOfDocsCalculator();
+        for(int i = 0; i < QueryProcessor.numOfThreads; i++){
+            new Thread(lengthOfDocsCalculator).start();
+
+        }
+        while (!LengthOfDocsCalculator.stop){}
+        for(int i = 0; i < N; i ++){
+            double Ld = Math.sqrt(QueryProcessor.docIdLdPairs.get(i));
+            QueryProcessor.docIdLdPairs.replace(i, Ld);
+        }
+        return QueryProcessor.docIdLdPairs;
     }
 
 

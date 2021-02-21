@@ -19,13 +19,11 @@ public class QueryAccumulators implements Runnable{
 
             while (!stop){
                 calculateTheAccumulators();
-
             }
     }
 
     //This method is used by each thread in order to calculate the docsAccumulators
     public synchronized void calculateTheAccumulators(){
-
         //for every term of the Tq (unique query terms set)
         String queryTerm = null;
         //every thread retrieves a term from the queue
@@ -94,8 +92,7 @@ public class QueryAccumulators implements Runnable{
                     //calculate term's weight int the document
                     double Wtd = TFtd * IDft;
                     synchronized (this){
-                        //update the Ld
-                        QueryProcessor.Ld = QueryProcessor.Ld + Math.pow(Wtd, 2);
+
 
                         if(!stop){
                             //append the new Wtq * Wtd result to the specific accumulator
@@ -122,7 +119,6 @@ public class QueryAccumulators implements Runnable{
     public static void initData(HashMap<String, Integer> queryTerms){
         stop = false;
         QueryProcessor.Lq = 0.0;
-        QueryProcessor.Ld = 0.0;
         QueryProcessor.docsAccumulators.clear();
         QueryProcessor.queryTermsQueue.clear();
         for(String term : queryTerms.keySet()){

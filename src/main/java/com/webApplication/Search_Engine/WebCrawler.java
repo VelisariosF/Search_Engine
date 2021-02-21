@@ -148,7 +148,6 @@ public class WebCrawler implements Runnable{
 
 
 
-
         } catch (MalformedURLException e) {
             //if the url could not be crawled get another url from the queue
             crawledUrl = queue.poll();
@@ -156,6 +155,7 @@ public class WebCrawler implements Runnable{
         } catch (IOException e) {
             //if the url could not be crawled get another url from the queue
             crawledUrl = queue.poll();
+
         }
 
     }
