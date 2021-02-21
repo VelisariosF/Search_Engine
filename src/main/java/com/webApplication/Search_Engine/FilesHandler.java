@@ -2,6 +2,7 @@ package com.webApplication.Search_Engine;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.*;
@@ -10,9 +11,11 @@ import java.util.concurrent.*;
  * This class is used for handling situations that engage file processing.
  */
 public class FilesHandler {
+    //tomcat server bin folder
+    protected static String tomcatBin = System.getProperty("catalina.home") + "/bin/";
     //TODO might change this comment when project is complete
     //Here put the path of the tomcat server bin
-    protected static String filesPath = "/home/velisarios/Server/apache-tomcat-8.5.61/bin/SearchEngineData/";
+    protected static String filesPath = tomcatBin + "SearchEngineData/";
 
     //TODO delete readFilePath when project is completed
     protected static String documentsFolderPath ="Documents/";
@@ -546,5 +549,22 @@ public class FilesHandler {
             ex.printStackTrace();
         }
         return new HashMap<>();
+    }
+
+    //This method creates folders
+    public static void createFiles(){
+        //create main Directory
+        File mainDirectory = new File(filesPath);
+        if (!mainDirectory.exists()){
+            mainDirectory.mkdir();
+        }
+
+        //create file that contains all documents
+        File allDocsDir = new File(documentsFolderPath);
+        if (!allDocsDir.exists()){
+            allDocsDir.mkdir();
+        }
+
+
     }
 }

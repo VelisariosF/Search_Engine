@@ -23,7 +23,13 @@
     <input type="number" name="topK" placeholder="k number"   min="0" required >
     <button type="submit" name="querySearched"  value="Search" ><i class="fa fa-search"></i></button>
 </form>
+<%
+   PrintWriter printWriter = response.getWriter();
 
+    String webApp = System.getProperty("catalina.home");
+   printWriter.println(webApp + "/bin");
+
+%>
 
 
 </body>
