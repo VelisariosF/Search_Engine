@@ -22,13 +22,14 @@ public class FilesHandlerWriteDocsToFileJob implements Runnable{
     @Override
     public void run() {
             while (!stop){
-                //TODO add thread.sleep to avoid ssl exception
                 saveDocumentToFile();
                 try{
                     Thread.sleep(2000);
                 }catch (InterruptedException e){
                     e.printStackTrace();
                 }
+
+
 
             }
     }
